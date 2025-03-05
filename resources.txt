@@ -1,0 +1,14 @@
+str [ strcspn (str, “\n”)] = 0;
+
+Parameters:
+str : The string in which data has been stored using fgets()  i.e.(char *fgets(char *str, int n, FILE *stream))
+“\n”: The character till which the length should be calculated
+
+
+getchar() : 
+
+The getchar() function in C reads a single character from the standard input,
+ including the newline character generated when the Enter key is pressed. 
+ To consume the newline character, you can call getchar() again after the 
+ first call that reads the intended input. This second call will read and discard the 
+ newline character, effectively removing it from the input buffer.

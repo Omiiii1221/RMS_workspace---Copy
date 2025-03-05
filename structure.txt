@@ -1,0 +1,39 @@
+RMS_workspace/
+├── customers.txt
+├── menu.txt
+├── orders.txt
+├── customer.h
+├── customer.c
+├── menu.h
+├── menu.c
+├── order.h
+├── order.c
+├── billing.h
+├── billing.c
+└── main.c
+
+Execution Order:
+1. main.c                  
+2. menu.c              
+3. customer.c               
+4. order.c                 
+5. billing.c        
+
+
+Relationships:
+- main.c                  This c file includes menu.h, order.h, customer.h, and billing.h to access their functions and structures.
+- customer.c              This c file implement functions declared in customer.h.
+- menu.c                  This c file implement functions declared in menu.h.
+- order.c                 This c file implement functions declared in order.h and uses functions from menu.h.
+- billing.c               This c file implement functions declared in billing.h and uses functions from order.h, customer.h, and menu.h.
+
+Header files:
+- customer.h              declares the structure of a customer and functions to manipulate it.
+- menu.h                  declares the structure of a menu and functions to manipulate it.
+- order.h                 declares the structure of an order and functions to manipulate it.
+- billing.h               declares the function to print a bill.
+
+Data files:
+- customers.txt           used by customer.c to store and retrieve customer data.
+- menu.txt                used by menu.c to store and retrieve menu item data.
+- orders.txt              used by order.c to store and retrieve order data.
