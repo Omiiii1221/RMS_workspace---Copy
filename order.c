@@ -2,6 +2,7 @@
 #include <string.h>
 #include "order.h"
 #include "menu.h"
+#include "customer.h"
 
 // Function to get the price of an item by its ID
 float getItemPrice(int itemId) {
@@ -50,6 +51,11 @@ void addOrder(Order order) {
         return;
     }
 
+    if (!customerIdExists(order.customerId)) {
+        printf("Customer ID not found. Please enter a valid customer ID.\n");
+        return;
+    }
+    
     float itemPrice = getItemPrice(order.itemId); 
     if (itemPrice == -1) {
         printf("Item ID not found!\n");
@@ -84,7 +90,7 @@ void displayOrders() {
     }
     Order order;
 
-    
+    // Print the table header
     printf("+----------+-------------+-------------+----------+-------------+\n");
     printf("| Order ID | Customer ID | Menu Item ID| Quantity | Total Price |\n");
     printf("+----------+-------------+-------------+----------+-------------+\n");
@@ -112,20 +118,22 @@ void deleteOrder(int orderId) {
     Order order;
     int found = 0;
 
+    // Read each line from the file
     while (fgets(line, sizeof(line), file)) {
         sscanf(line, "%d %d %d %d %f", &order.id, &order.customerId, &order.itemId, &order.quantity, &order.totalPrice);
+        // Write the line to the temporary file if the order ID does not match
         if (order.id != orderId) {
             fprintf(tempFile, "%d %d %d %d %.2f\n", order.id, order.customerId, order.itemId, order.quantity, order.totalPrice);
         } else {
-            found = 1;
+            found = 1; // Set the flag if the order ID is found
         }
     }
 
-    fclose(file);
-    fclose(tempFile);
+    fclose(file); // Close the original file
+    fclose(tempFile); // Close the temporary file
 
-    remove("orders.txt");
-    rename("temp.txt", "orders.txt");
+    remove("orders.txt"); // Delete the original file
+    rename("temp.txt", "orders.txt"); // Rename the temporary file to the original file name
 
     if (found) {
         printf("Order deleted successfully!\n");
@@ -134,6 +142,7 @@ void deleteOrder(int orderId) {
     }
 }
 
+// Function to get an order by ID
 Order getOrderById(int orderId) {
     FILE *file = fopen("orders.txt", "r");
     Order order;
@@ -144,14 +153,16 @@ Order getOrderById(int orderId) {
         return order;
     }
 
+    // Read each line from the file
     while (fscanf(file, "%d %d %d %d %f", &order.id, &order.customerId, &order.itemId, &order.quantity, &order.totalPrice) == 5) {
+        // Return the order if the ID matches
         if (order.id == orderId) {
             fclose(file);
             return order;
         }
     }
 
-    fclose(file);
+    fclose(file); // Close the file
     order.id = -1; // Set to invalid ID if not found
     return order;
 }

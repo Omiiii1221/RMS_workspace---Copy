@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "order.h": "c"
+        "order.h": "c",
+        "customer.h": "c"
     }
 }
