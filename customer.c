@@ -3,8 +3,34 @@
 #include <string.h>
 #include "customer.h"
 
+
+
+int customerIdExists(int customerId) {
+    FILE *file = fopen("customers.txt", "r");
+    if (file == NULL) {
+        printf("Error opening customers file!\n");
+        return 0;
+    }
+    Customer customer;
+    while (fscanf(file, "%d|%49[^|]|%14[^\n]", &customer.id, customer.name, customer.phone) == 3) {
+        if (customer.id == customerId) {
+            fclose(file);
+            return 1; // Customer ID exists
+        }
+    }
+    fclose(file);
+    return 0; // Customer ID does not exist
+}
+
+
 // Function to add a customer to the customers file
 void addCustomer(Customer customer) {
+
+    if (customerIdExists(customer.id)) {
+        printf("Duplicate ID not allowed. Please enter a new customer ID.\n");
+        return;
+    }
+    
     FILE *file = fopen("customers.txt", "a"); // Open the customers file in append mode
     if (file == NULL) {
         printf("Error opening file!\n");

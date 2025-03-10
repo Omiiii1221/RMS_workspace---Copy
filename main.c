@@ -42,7 +42,7 @@ int main() {
 
         printMenu();
         scanf("%d", &choice);
-        getchar(); // getchar is used to consume newline charechter
+        getchar(); // getchar is used to consume newline character
 
         clearScreen();
 
@@ -63,9 +63,14 @@ int main() {
                 break;
             case 2:
                 printf("\n=========================================================================================================\n");
-                printf("\nEnter customer ID: ");
-                scanf("%d", &customer.id);
-                getchar(); 
+                do {
+                    printf("\nEnter customer ID: ");
+                    scanf("%d", &customer.id);
+                    getchar();
+                    if (customerIdExists(customer.id)) {
+                        printf("Duplicate ID not allowed. Please enter a new customer ID.\n");
+                    }
+                } while (customerIdExists(customer.id));
                 printf("Enter customer name: ");
                 fgets(customer.name, sizeof(customer.name), stdin);
                 customer.name[strcspn(customer.name, "\n")] = 0; 
@@ -78,8 +83,13 @@ int main() {
                 break;
             case 3:
                 printf("\n=========================================================================================================\n");
-                printf("\nEnter order ID: ");
-                scanf("%d", &order.id);
+                do {
+                    printf("\nEnter order ID: ");
+                    scanf("%d", &order.id);
+                    if (orderIdExists(order.id)) {
+                        printf("Duplicate ID not allowed. Please enter a new order ID.\n");
+                    }
+                } while (orderIdExists(order.id));
                 printf("Enter customer ID: ");
                 scanf("%d", &order.customerId);
                 printf("Enter item ID: ");

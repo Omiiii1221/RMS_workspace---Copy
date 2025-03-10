@@ -8,7 +8,7 @@ typedef struct {
     int quantity;
     float totalPrice;
 } Order;
-
+int orderIdExists(int orderId);
 void addOrder(Order order);
 void displayOrders();
 float getItemPrice(int itemId);

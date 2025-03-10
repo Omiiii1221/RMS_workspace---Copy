@@ -14,7 +14,6 @@ float getItemPrice(int itemId) {
     MenuItem item;
     // Read each line from the file
     while (fgets(line, sizeof(line), file)) {
-        
         sscanf(line, "%d %49s %f", &item.id, item.name, &item.price);
         // If the item ID matches, return the price
         if (item.id == itemId) {
@@ -26,11 +25,35 @@ float getItemPrice(int itemId) {
     return -1; // Return -1 if the item is not found
 }
 
+// Function to check if an order ID already exists
+int orderIdExists(int orderId) {
+    FILE *file = fopen("orders.txt", "r");
+    if (file == NULL) {
+        printf("Error opening orders file!\n");
+        return 0;
+    }
+    Order order;
+    while (fscanf(file, "%d %d %d %d %f", &order.id, &order.customerId, &order.itemId, &order.quantity, &order.totalPrice) == 5) {
+        if (order.id == orderId) {
+            fclose(file);
+            return 1; // Order ID exists
+        }
+    }
+    fclose(file);
+    return 0; // Order ID does not exist
+}
+
 // Function to add an order
 void addOrder(Order order) {
+    if (orderIdExists(order.id)) {
+        printf("Duplicate ID not allowed. Please enter a new order ID.\n");
+        return;
+    }
+
     float itemPrice = getItemPrice(order.itemId); 
     if (itemPrice == -1) {
         printf("Item ID not found!\n");
+        getchar();
         return;  
     }
     
@@ -39,8 +62,7 @@ void addOrder(Order order) {
         return;   
     }
 
-
- // Calculate the total price
+    // Calculate the total price
     order.totalPrice = itemPrice * order.quantity;
 
     FILE *file = fopen("orders.txt", "a"); // Open the orders file in append mode

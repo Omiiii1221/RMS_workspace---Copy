@@ -7,6 +7,7 @@ typedef struct {
     char phone[15];
 } Customer;
 
+int customerIdExists(int customerId);
 void addCustomer(Customer customer);
 void displayCustomers();
 void deleteCustomer(int customerId);
