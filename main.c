@@ -54,14 +54,22 @@ int main()
         {
         case 1:
             printf("\n=========================================================================================================\n");
-            printf("\nEnter item ID: ");
-            scanf("%d", &item.id);
-            getchar();
+            do
+            {
+                printf("\nEnter item ID: ");
+                scanf("%d", &item.id);
+                getchar(); 
+                if (itemIdExists(item.id))
+                {
+                    printf("Duplicate ID not allowed. Please enter a new item ID.\n");
+                }
+            } while (itemIdExists(item.id));
             printf("Enter item name: ");
             fgets(item.name, sizeof(item.name), stdin);
             item.name[strcspn(item.name, "\n")] = 0; //
             printf("Enter item price: ");
             scanf("%f", &item.price);
+            getchar(); 
             addMenuItem(item);
             printf("Menu item added successfully!\n");
             printf("=========================================================================================================\n");
@@ -72,7 +80,7 @@ int main()
             {
                 printf("\nEnter customer ID: ");
                 scanf("%d", &customer.id);
-                getchar();
+                getchar(); 
                 if (customerIdExists(customer.id))
                 {
                     printf("Duplicate ID not allowed. Please enter a new customer ID.\n");
@@ -94,22 +102,35 @@ int main()
             {
                 printf("\nEnter order ID: ");
                 scanf("%d", &order.id);
+                getchar(); // Consume newline character
                 if (orderIdExists(order.id))
                 {
                     printf("Duplicate ID not allowed. Please enter a new order ID.\n");
                 }
             } while (orderIdExists(order.id));
-            do {
+            do
+            {
                 printf("Enter customer ID: ");
                 scanf("%d", &order.customerId);
-                if (!customerIdExists(order.customerId)) {
+                getchar(); // Consume newline character
+                if (!customerIdExists(order.customerId))
+                {
                     printf("Customer ID not found. Please enter a valid customer ID.\n");
                 }
             } while (!customerIdExists(order.customerId));
-            printf("Enter item ID: ");
-            scanf("%d", &order.itemId);
+            do
+            {
+                printf("\nEnter item ID: ");
+                scanf("%d", &order.itemId);
+                getchar(); 
+                if (!itemIdExists(order.itemId))
+                {
+                    printf("Item ID not found. Please enter a valid item ID.\n");
+                }
+            } while (!itemIdExists(order.itemId));
             printf("Enter quantity: ");
             scanf("%d", &order.quantity);
+            getchar(); 
             addOrder(order);
             printf("Order added successfully!\n");
             printf("=========================================================================================================\n");
@@ -133,6 +154,7 @@ int main()
             printf("\n=========================================================================================================\n");
             printf("\n\nEnter item ID to delete: ");
             scanf("%d", &id);
+            getchar(); // Consume newline character
             deleteMenuItem(id);
             printf("=========================================================================================================\n");
             break;
@@ -140,6 +162,7 @@ int main()
             printf("\n=========================================================================================================\n");
             printf("\n\nEnter customer ID to delete: ");
             scanf("%d", &id);
+            getchar(); // Consume newline character
             deleteCustomer(id);
             printf("=========================================================================================================\n");
             break;
@@ -147,6 +170,7 @@ int main()
             printf("\n=========================================================================================================\n");
             printf("\n\nEnter order ID to delete: ");
             scanf("%d", &id);
+            getchar(); // Consume newline character
             deleteOrder(id);
             printf("=========================================================================================================\n");
             break;
@@ -154,6 +178,7 @@ int main()
             printf("\n=========================================================================================================\n");
             printf("\n\nEnter order ID to print bill: ");
             scanf("%d", &id);
+            getchar(); // Consume newline character
             printBill(id);
             printf("=========================================================================================================\n");
             printf("\nPress Enter to continue...");

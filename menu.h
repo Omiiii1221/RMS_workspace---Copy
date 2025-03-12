@@ -7,6 +7,7 @@ typedef struct {
     float price;
 } MenuItem;
 
+int itemIdExists(int itemId);
 void addMenuItem(MenuItem item);
 void displayMenu();
 void deleteMenuItem(int itemId);

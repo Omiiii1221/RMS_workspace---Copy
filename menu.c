@@ -2,16 +2,33 @@
 #include <string.h>
 #include "menu.h"
 
+int itemIdExists(int itemId) {
+    FILE *file = fopen("menu.txt", "r");
+    if (file == NULL) {
+        printf("Error opening menu file!\n");
+        return 0;
+    }
+    MenuItem item;
+    while (fscanf(file, "%d %49s %f", &item.id, item.name, &item.price) == 3) {
+        if (item.id == itemId) {
+            fclose(file);
+            return 1; // Item ID exists
+        }
+    }
+    fclose(file);
+    return 0; // Item ID does not exist
+}
+
 // Function to add a menu item to the menu file
 void addMenuItem(MenuItem item) {
-    FILE *file = fopen("menu.txt", "a"); // Opening the menu file in append mode
+    FILE *file = fopen("menu.txt", "a");//open in append mode
     if (file == NULL) {
         printf("Error opening file!\n");
-        return; // Exiting if the file cannot be opened
+        return; 
     }
     // writing the menu item details to the file
     fprintf(file, "%d %s %.2f\n", item.id, item.name, item.price);
-    fclose(file); // Closing the file
+    fclose(file); 
 }
 
 // Function to display all menu items in a table format
@@ -21,7 +38,7 @@ void displayMenu() {
         printf("Error opening file!\n");
         return; 
     }
-    char line[100];
+    char line[100]; 
     MenuItem item;
 
     // Print the table header
